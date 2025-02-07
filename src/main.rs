@@ -14,6 +14,13 @@ const FRIDAY: &[u8] = include_bytes!("gifs/friday.gif");
 const SATURDAY: &[u8] = include_bytes!("gifs/saturday.gif");
 const SUNDAY: &[u8] = include_bytes!("gifs/sunday.gif");
 const CHRISTMAS: &[u8] = include_bytes!("gifs/christmas.gif");
+const INDEPENDENCE: &[u8] = include_bytes!("gifs/independence.gif");
+const NEW_YEARS: &[u8] = include_bytes!("gifs/new_years.gif");
+const MIKU: &[u8] = include_bytes!("gifs/miku.gif");
+const NACHO: &[u8] = include_bytes!("gifs/nacho.gif");
+const BAGEL: &[u8] = include_bytes!("gifs/bagel.gif");
+const TRANSGENDER: &[u8] = include_bytes!("gifs/transgender.gif");
+const JELLYFISH: &[u8] = include_bytes!("gifs/jellyfish.gif");
 
 #[tokio::main]
 async fn main() {
@@ -39,8 +46,23 @@ async fn index() -> impl IntoResponse {
 }
 
 async fn get_gif<'a>(now: DateTime<Utc>) -> &'a [u8] {
-    if now.month() == 12 && now.day() == 25 {
+    let (month, day) = (now.month(), now.day());
+    if month == 12 && day == 25 {
         return CHRISTMAS;
+    } else if month == 7 && day == 4 {
+        return INDEPENDENCE;
+    } else if month == 1 && day == 1 {
+        return NEW_YEARS;
+    } else if month == 3 && day == 9 {
+        return MIKU;
+    } else if month == 11 && day == 6 {
+        return NACHO;
+    } else if month == 1 && day == 15 {
+        return BAGEL;
+    } else if month == 11 && (day >= 13 && day <= 19) {
+        return TRANSGENDER;
+    } else if month == 11 && day == 3 {
+        return JELLYFISH;
     }
 
     match now.weekday() {
