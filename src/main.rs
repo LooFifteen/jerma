@@ -6,6 +6,8 @@ use axum::{
 };
 use chrono::{DateTime, Datelike, Duration, Utc, Weekday};
 
+const FAVICON: &[u8] = include_bytes!("favicon.ico");
+
 const MONDAY: &[u8] = include_bytes!("gifs/monday.gif");
 const TUESDAY: &[u8] = include_bytes!("gifs/tuesday.gif");
 const WEDNESDAY: &[u8] = include_bytes!("gifs/wednesday.gif");
@@ -24,7 +26,10 @@ const JELLYFISH: &[u8] = include_bytes!("gifs/jellyfish.gif");
 
 #[tokio::main]
 async fn main() {
-    let app = Router::new().route("/", get(index));
+    let app = Router::new().route("/", get(index)).route(
+        "/favicon.ico",
+        get(|| async { ([(CONTENT_TYPE, "image/x-icon")], FAVICON) }),
+    );
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
     axum::serve(listener, app).await.unwrap();
